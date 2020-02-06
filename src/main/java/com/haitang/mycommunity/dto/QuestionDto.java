@@ -1,8 +1,10 @@
-package com.haitang.mycommunity.model;
+package com.haitang.mycommunity.dto;
+
+import com.haitang.mycommunity.model.User;
 import lombok.Data;
 
 @Data
-public class Question {
+public class QuestionDto {
     private Integer id;
     private String title;
     private String description;
@@ -13,6 +15,7 @@ public class Question {
     private Integer viewCount;
     private Integer commentCount;
     private Integer likeCount;
+    private User user;
 
     public Integer getId() {
         return id;
@@ -93,4 +96,14 @@ public class Question {
     public void setLikeCount(Integer likeCount) {
         this.likeCount = likeCount;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
+
+

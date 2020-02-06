@@ -15,7 +15,7 @@
             <h3 style="color: #ffc624"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 发起</h3>
             <hr style="color: #ffc624">
             <form action="/addquestion" method="post" style="font-family: 华文仿宋;font-size: 18px">
-                <input type="hidden" name="id" th:value="${id}">
+                <input type="hidden" name="creator" th:value="${session.user.id}">
                 <div class="form-group">
                     <label for="title">问题标题（简单扼要）:</label>
                     <input type="text" class="form-control" th:value="${title}" id="title" name="title"

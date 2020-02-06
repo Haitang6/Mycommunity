@@ -1,15 +1,17 @@
 package com.haitang.mycommunity.model;
 
+import lombok.Data;
 import sun.management.counter.perf.PerfInstrumentation;
 
+@Data
 public class User {
-
     private Integer id;
     private String name;
-    private String accountid;
+    private String accountId;
     private String token;
     private long gmtCreate;
     private long gmtModified;
+    private String avatarUrl;
 
     public Integer getId() {
         return id;
@@ -27,12 +29,12 @@ public class User {
         this.name = name;
     }
 
-    public String getAccountid() {
-        return accountid;
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setAccountid(String accountid) {
-        this.accountid = accountid;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 
     public String getToken() {
@@ -57,5 +59,13 @@ public class User {
 
     public void setGmtModified(long gmtModified) {
         this.gmtModified = gmtModified;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

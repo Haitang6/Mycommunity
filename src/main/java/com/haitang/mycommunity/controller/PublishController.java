@@ -23,6 +23,7 @@ public class PublishController {
     public String publish(HttpServletRequest request,Model model){
         User user=null;
         Cookie[] cookies = request.getCookies();
+        if (cookies != null && cookies.length!=0){
         for(Cookie cookie:cookies){
             if (cookie.getName().equals("token")){
                 String token = cookie.getValue();
@@ -33,7 +34,7 @@ public class PublishController {
                 break;
             }
         }
-
+        }
         return "publish";
     }
 
@@ -77,6 +78,9 @@ public class PublishController {
         question.setCreator(user.getId());
         question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(question.getGmtCreate());
+        question.setViewCount(0);
+        question.setLikeCount(0);
+        question.setCommentCount(0);
         questionMapper.addQuestion(question);
         model.addAttribute("question",question);
         model.addAttribute("test","test");
