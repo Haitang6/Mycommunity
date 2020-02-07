@@ -2,10 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymelf.com">
 <head th:fragment="head">
     <meta charset="UTF-8">
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <script src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/community.css">
 </head>
 <body>
 <nav th:frament="nav">
@@ -15,7 +16,7 @@
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <form class="navbar-form navbar-left" style="padding-left:510px ">
+            <form class="navbar-form navbar-left" style="padding-left:400px ">
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="搜索问题"/>
                 </div>
@@ -35,8 +36,8 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">个人中心</a></li>
-                        <li><a href="#">消息中心</a></li>
+                        <li><a href="/myself/question">我的问题</a></li>
+                        <li><a href="/myself/replies">我的回复</a></li>
                         <li><a href="#">退出登录</a></li>
                     </ul>
                 </li>

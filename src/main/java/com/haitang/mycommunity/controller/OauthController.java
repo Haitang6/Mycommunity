@@ -1,5 +1,4 @@
 package com.haitang.mycommunity.controller;
-
 import com.haitang.mycommunity.dto.AccessTokenDto;
 import com.haitang.mycommunity.dto.GithubUser;
 import com.haitang.mycommunity.mapper.UserMapper;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,8 +30,6 @@ public class OauthController {
 
     @Value("${github.redirect.uri}")
     private String redirecturl;
-
-
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,

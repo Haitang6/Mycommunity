@@ -34,7 +34,7 @@
             <div class="media" th:each="questionDto:${questionDtos}" >
                 <div class="media-left">
                     <a href="#">
-                        <img th:src="${questionDto.user.avatarUrl}" style="width: 60px" class="media-object img-rounded">
+                        <img th:src="${questionDto.user.avatarUrl}" style="width: 78px;height: 78px" class="media-object img-rounded">
                     </a>
                 </div>
                 <div class="media-body">
@@ -44,7 +44,7 @@
                     <p th:text="${questionDto.description}"></p>
                     <span class="text-desc">
                         <span th:text="${questionDto.commentCount}"></span> 个回复 •
-                        <span th:text="${questionDto.viewCount}"></span> 次浏览
+                        <span th:text="${questionDto.viewCount}"></span> 次浏览 •
                         <span th:text="${#dates.format(questionDto.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
                     </span>
 
