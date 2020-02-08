@@ -8,3 +8,6 @@
 
 切换到最近的一个窗口 ctrl e
 
+重构时再次执行
+
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
