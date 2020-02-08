@@ -21,6 +21,15 @@ public class QuestionService {
     @Autowired
     UserMapper userMapper;
 
+    public void createOrUpdatequestion(Question question) {
+        Question question1 = questionMapper.findById(question.getId());
+        if (question1 == null){
+            questionMapper.addQuestion(question);
+        }else {
+            question.setGmtModified(System.currentTimeMillis());
+            questionMapper.updateQuestion(question);
+        }
+    }
 
     public List<QuestionDto> findAll(){
         List<QuestionDto> questionDtos=new ArrayList<QuestionDto>();
@@ -37,7 +46,6 @@ public class QuestionService {
 
     }
 
-
     public List<QuestionDto> findAllByUserid(Integer userid){
         List<QuestionDto> questionDtos=new ArrayList<QuestionDto>();
         List<Question> questions = questionMapper.findAllByUserid(userid);
@@ -47,10 +55,18 @@ public class QuestionService {
             QuestionDto questionDto=new QuestionDto();
             BeanUtils.copyProperties(question,questionDto);
             questionDto.setUser(user);
-            System.out.println(questionDto);
             questionDtos.add(questionDto);
         }
         return questionDtos;
 
+    }
+
+    public QuestionDto findById(Integer id) {
+        QuestionDto questionDto=new QuestionDto();
+        Question question=questionMapper.findById(id);
+        User user = userMapper.findById(question.getCreator());
+        BeanUtils.copyProperties(question,questionDto);
+        questionDto.setUser(user);
+        return questionDto;
     }
 }

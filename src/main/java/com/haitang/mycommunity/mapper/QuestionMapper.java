@@ -1,10 +1,8 @@
 package com.haitang.mycommunity.mapper;
 
 import com.haitang.mycommunity.model.Question;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -20,4 +18,10 @@ public interface QuestionMapper {
 
     @Select("select * from question where creator = #{userid}")
     List<Question> findAllByUserid(@Param("userid") Integer userid);
+
+    @Select("select * from question where id = #{id}")
+    Question findById(@Param("id") Integer id);
+
+    @Update("update question set title = #{title},description = #{description},tag=#{tag},gmt_modified=#{gmtModified} where id=#{id} ")
+    void updateQuestion(Question question);
 }

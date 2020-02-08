@@ -2,6 +2,7 @@ package com.haitang.mycommunity.controller;
 import com.haitang.mycommunity.mapper.QuestionMapper;
 import com.haitang.mycommunity.model.Question;
 import com.haitang.mycommunity.model.User;
+import com.haitang.mycommunity.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +15,12 @@ public class PublishController {
 
     @Autowired
     QuestionMapper questionMapper;
-
+    @Autowired
+    QuestionService questionService;
     @GetMapping("/publish")
     public String publish(HttpServletRequest request,Model model){
          User user=(User)request.getSession().getAttribute("user");
-         if (user != null){
+         if (user == null){
              return "redirect:/";
          }
         return "publish";
@@ -26,11 +28,9 @@ public class PublishController {
 
     @PostMapping("/addquestion")
     public String doPublish(Question question, HttpServletRequest request,Model model){
-
         model.addAttribute("title",question.getTitle());
         model.addAttribute("description",question.getDescription());
         model.addAttribute("tag",question.getTag());
-
         if (question.getTitle()==null || question.getTitle()==""){
             model.addAttribute("error","请填写标题");
             return "publish";
@@ -44,7 +44,6 @@ public class PublishController {
             return "publish";
         }
 
-
         User user =(User) request.getSession().getAttribute("user");
         if (user == null){
             model.addAttribute("error","用户未登陆");
@@ -56,7 +55,7 @@ public class PublishController {
         question.setViewCount(0);
         question.setLikeCount(0);
         question.setCommentCount(0);
-        questionMapper.addQuestion(question);
+        questionService.createOrUpdatequestion(question);
         model.addAttribute("question",question);
         model.addAttribute("test","test");
         return "redirect:/";

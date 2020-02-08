@@ -4,6 +4,7 @@ import com.haitang.mycommunity.dto.GithubUser;
 import com.haitang.mycommunity.mapper.UserMapper;
 import com.haitang.mycommunity.model.User;
 import com.haitang.mycommunity.provide.GitHubProvider;
+import com.haitang.mycommunity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -19,9 +20,8 @@ public class OauthController {
 
     @Autowired
     GitHubProvider gitHubProvider;
-
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
     @Value("${github.client.id}")
     private String clientid;
 
@@ -52,16 +52,25 @@ public class OauthController {
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatarUrl());
-            userMapper.insert(user);
+            userService.updateorCreate(user);
             request.getSession().setAttribute("user",githubUser);
-
             response.addCookie(new Cookie("token",token));
             return "redirect:/";
         }else {
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout (HttpServletRequest request,HttpServletResponse response){
+
+        request.getSession().removeAttribute("user");
+
+        Cookie cookie=new Cookie("token",null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 
 }
