@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymelf.com">
 <head>
     <meta charset="UTF-8">
-    <title>test</title>
+    <title>错误</title>
     <head th:replace="import::head"></head>
 </head>
 <body>
@@ -10,7 +10,7 @@
 
 <div class="jumbotron" style="min-height: 300px; width: 60% ;margin:auto">
     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12"><h1>出错啦！！！</h1>
-        <p>500服务太热啦，要不然稍等下再来试试~</p>
+        <p th:text="${message}">500服务太热啦，要不然稍等下再来试试~</p>
         <p><a class="btn btn-primary btn-lg" href="/" role="button">回到主页</a></p>
     </div>
     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">

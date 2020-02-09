@@ -1,5 +1,7 @@
 package com.haitang.mycommunity.service;
 import com.haitang.mycommunity.dto.QuestionDto;
+import com.haitang.mycommunity.exception.CustomizeErrorCode;
+import com.haitang.mycommunity.exception.CustomizeException;
 import com.haitang.mycommunity.mapper.QuestionMapper;
 import com.haitang.mycommunity.mapper.UserMapper;
 import com.haitang.mycommunity.model.Question;
@@ -29,19 +31,18 @@ public class QuestionService {
             updateQuestion.setTitle(question.getTitle());
             updateQuestion.setTag(question.getTag());
             updateQuestion.setDescription(question.getDescription());
-
-
             QuestionExample questionExample=new QuestionExample();
             questionExample.createCriteria()
                     .andIdEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updateQuestion,questionExample);
-//            questionMapper.updateQuestion(question);
+            int update = questionMapper.updateByExampleSelective(updateQuestion, questionExample);
+            if (update !=1){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
     }
 
     public List<QuestionDto> findAll(){
         List<QuestionDto> questionDtos=new ArrayList<QuestionDto>();
-//        List<Question> questions = questionMapper.findAll();
         List<Question> questions = questionMapper.selectByExample(new QuestionExample());
 
         for (Question question:questions){
@@ -63,7 +64,6 @@ public class QuestionService {
         questionExample.createCriteria()
                 .andCreatorEqualTo(userid);
         List<Question> questions = questionMapper.selectByExample(questionExample);
-//        List<Question> questions = questionMapper.findAllByUserid(userid);
         for (Question question:questions){
             Integer creator = question.getCreator();
             User user = userMapper.selectByPrimaryKey(creator);
@@ -79,6 +79,10 @@ public class QuestionService {
     public QuestionDto findById(Integer id) {
         QuestionDto questionDto=new QuestionDto();
         Question question=questionMapper.selectByPrimaryKey(id);
+
+        if (question == null) {
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         User user = userMapper.selectByPrimaryKey(question.getCreator());
         BeanUtils.copyProperties(question,questionDto);
         questionDto.setUser(user);
