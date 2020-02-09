@@ -2,6 +2,7 @@ package com.haitang.mycommunity.service;
 import com.haitang.mycommunity.dto.QuestionDto;
 import com.haitang.mycommunity.exception.CustomizeErrorCode;
 import com.haitang.mycommunity.exception.CustomizeException;
+import com.haitang.mycommunity.mapper.QuestionExtMapper;
 import com.haitang.mycommunity.mapper.QuestionMapper;
 import com.haitang.mycommunity.mapper.UserMapper;
 import com.haitang.mycommunity.model.Question;
@@ -20,6 +21,8 @@ public class QuestionService {
     QuestionMapper questionMapper;
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    QuestionExtMapper questionExtMapper;
 
     public void createOrUpdatequestion(Question question) {
         Question question1 = questionMapper.selectByPrimaryKey(question.getId());
@@ -87,5 +90,19 @@ public class QuestionService {
         BeanUtils.copyProperties(question,questionDto);
         questionDto.setUser(user);
         return questionDto;
+    }
+
+    public void incView(Integer id) {
+//        Question question = questionMapper.selectByPrimaryKey(id);
+//        Question updateQuestion = new Question();
+//        updateQuestion.setViewCount(question.getViewCount()+1);
+//        QuestionExample questionExample=new QuestionExample();
+//        questionExample.createCriteria()
+//                .andIdEqualTo(id);
+//        questionMapper.updateByExampleSelective(updateQuestion,questionExample);
+        Question question=new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
     }
 }

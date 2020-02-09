@@ -18,9 +18,9 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h3 th:text="${questionDto.title}" class="question-title"><span>标题</span></h3>
                 <span class="text-desc">
-                作者111：<span th:text="${questionDto.user.name}" >海棠</span> |
-                发布时间：<span th:text="${#dates.format(questionDto.gmtCreate,'yyyy-MM-dd HH:mm')}" >2019-11-02</span> |
-                阅读数： <span  >2</span>
+                作者：<span th:text="${questionDto.user.name}" ></span> |
+                发布时间：<span th:text="${#dates.format(questionDto.gmtCreate,'yyyy-MM-dd')}" ></span> |
+                阅读数： <span  th:text="${questionDto.viewCount}"></span>
                 </span>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
