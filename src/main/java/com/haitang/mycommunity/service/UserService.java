@@ -5,7 +5,6 @@ import com.haitang.mycommunity.model.User;
 import com.haitang.mycommunity.model.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -38,10 +37,7 @@ public class UserService {
             userExample1.createCriteria()
                     .andIdEqualTo(user1.getId());
             userMapper.updateByExampleSelective(updateUser,userExample1);
-//            userMapper.update(user1);
         }
         return null;
     }
-
-
 }

@@ -27,6 +27,11 @@ public class QuestionService {
     public void createOrUpdatequestion(Question question) {
         Question question1 = questionMapper.selectByPrimaryKey(question.getId());
         if (question1 == null){
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(question.getGmtCreate());
+            question.setCommentCount(0);
+            question.setViewCount(0);
+            question.setLikeCount(0);
             questionMapper.insert(question);
         }else {
             Question updateQuestion=new Question();
@@ -93,13 +98,6 @@ public class QuestionService {
     }
 
     public void incView(Integer id) {
-//        Question question = questionMapper.selectByPrimaryKey(id);
-//        Question updateQuestion = new Question();
-//        updateQuestion.setViewCount(question.getViewCount()+1);
-//        QuestionExample questionExample=new QuestionExample();
-//        questionExample.createCriteria()
-//                .andIdEqualTo(id);
-//        questionMapper.updateByExampleSelective(updateQuestion,questionExample);
         Question question=new Question();
         question.setId(id);
         question.setViewCount(1);
