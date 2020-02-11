@@ -93,4 +93,5 @@ public interface CommentMapper {
      * @mbg.generated Mon Feb 10 23:14:16 CST 2020
      */
     int updateByPrimaryKey(Comment record);
+
 }

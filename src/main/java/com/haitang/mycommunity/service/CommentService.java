@@ -1,15 +1,25 @@
 package com.haitang.mycommunity.service;
 
+import com.haitang.mycommunity.dto.CommentDto;
+import com.haitang.mycommunity.dto.CommentShowDto;
 import com.haitang.mycommunity.enums.CommentTypeEnum;
 import com.haitang.mycommunity.exception.CustomizeErrorCode;
 import com.haitang.mycommunity.exception.CustomizeException;
 import com.haitang.mycommunity.mapper.CommentMapper;
 import com.haitang.mycommunity.mapper.QuestionExtMapper;
 import com.haitang.mycommunity.mapper.QuestionMapper;
-import com.haitang.mycommunity.model.Comment;
-import com.haitang.mycommunity.model.Question;
+import com.haitang.mycommunity.mapper.UserMapper;
+import com.haitang.mycommunity.model.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -17,14 +27,18 @@ public class CommentService {
     CommentMapper commentMapper;
     @Autowired
     QuestionMapper questionMapper;
-
     @Autowired
     QuestionExtMapper questionExtMapper;
+    @Autowired
+    UserMapper userMapper;
 
+    @Transactional
     public void insert(Comment comment) {
-        if (comment.getId() ==0 ||comment.getId() == null){
+        //要评论或回复的内容不存在了
+        if (comment.getParentId() ==0 ||comment.getParentId() == null){
             throw new CustomizeException(CustomizeErrorCode.COMMENT_OR_REPLAY_NOT_SELECT);
         }
+        //评论或回复存在的情况
         if (comment.getType() == null || !CommentTypeEnum.isExits(comment.getType())){
             throw new CustomizeException(CustomizeErrorCode.TYPE_OF_COMMENT_WRONG);
         }
@@ -38,7 +52,7 @@ public class CommentService {
 
         }else {
 //            回复问题
-            Question question = questionMapper.selectByPrimaryKey(comment.getId());
+            Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
             if (question == null){
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
@@ -49,7 +63,38 @@ public class CommentService {
         }
     }
 
+    public List<CommentShowDto> findByQuestionId(Integer id) {
+        CommentExample commentExample = new CommentExample();
+        commentExample.createCriteria()
+                .andParentIdEqualTo(id)
+        .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
+        List<Comment> comments = commentMapper.selectByExample(commentExample);
+        if (comments.size() == 0){
+            return new ArrayList<>();
+        }
+//        查找出一个问题下面的所有评论者,去除重复者
+        Set<Integer> commentators = comments.stream().map(comment -> comment.getCommentator()).collect(Collectors.toSet());
 
+        List <Integer> userIds = new ArrayList<>();
+        userIds.addAll(commentators);
 
+        UserExample userExample = new UserExample();
+        userExample.createCriteria()
+                .andIdIn(userIds);
 
+        List<User> users = userMapper.selectByExample(userExample);
+
+//        把评论和用户对应起来
+        Map<Integer, User> userMap = users.stream().collect(Collectors.toMap(user -> user.getId(), user -> user));
+
+        List<CommentShowDto> commentShowDtos = comments.stream().map(comment -> {
+            CommentShowDto commentShowDto = new CommentShowDto();
+            BeanUtils.copyProperties(comment,commentShowDto);
+            commentShowDto.setUser(userMap.get(comment.getCommentator()));
+            return commentShowDto;
+        }).collect(Collectors.toList());
+
+        return commentShowDtos;
+
+    }
 }

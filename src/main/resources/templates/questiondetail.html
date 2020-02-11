@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>问题详情</title>
     <head th:replace="import::head"></head>
+<!--    <script src="/js/community.js"></script>-->
+
 </head>
 <body style="background-color: #f9f9f9">
 
@@ -47,8 +49,53 @@
 
             </div>
 
-            <!--回复输入框-->
+            <!--回复-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4>
+                    <span th:text="${questionDto.commentCount}"></span> 个回复
+                </h4>
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-sp">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comments" th:each="commentShowDto : ${commentShowDto}" >
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object img-rounded"
+                                     th:src="${commentShowDto.user.avatarUrl}">
+                            </a>
+                        </div>
+                        <div class="media-body" >
+                            <h5 class="media-heading">
+                                <span th:text="${commentShowDto.context}" >aaa</span>
+                            </h5>
+                            <div  ></div>
+                            <div class="menu">
+                                <span class="glyphicon glyphicon-thumbs-up icon"></span>
+                                <span class="comment-icon">
+                                    <span class="glyphicon glyphicon-comment"></span>
+                                    <span ></span>
+                                </span>
+                                <span class="pull-right" th:text="${#dates.format(commentShowDto.gmtCreate,'yyyy-MM-dd HH:mm')}" ></span>
+                            </div>
+                            <!--二级评论-->
+<!--                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse sub-comments"-->
+<!--                                 th:id="${'comment-'+comment.id}">-->
+<!--                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">-->
+<!--                                    <input type="text" class="form-control" placeholder="评论一下……"-->
+<!--                                           th:id="${'input-'+comment.id}">-->
+<!--                                    <button type="button" class="btn btn-success pull-right" onclick="comment(this)"-->
+<!--                                            th:data-id="${comment.id}">评论-->
+<!--                                    </button>-->
+<!--                                </div>-->
+<!--                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!--回复输入框-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment">
                 <h4>
                     提交回复
                 </h4>
@@ -57,19 +104,18 @@
                     <div class="media">
                         <div class="media-left">
                             <a href="#">
-                                <!--                                <img class="media-object img-rounded"-->
-                                <!--                                     th:src="${session.user != null ? session.user.avatarUrl : '/images/default-avatar.png'}">-->
+                                <img class="media-object img-rounded" th:src="${session.user != null ? session.user.avatarUrl : '/images/default-avatar.png'}">
                             </a>
                         </div>
                         <div class="media-body">
                             <h5 class="media-heading">
-                                <!--                                <span th:text="${session.user != null ? session.user.name : '匿名用户'}"></span>-->
+                                <span th:text="${session.user != null ? session.user.name : '匿名用户'}"></span>
                             </h5>
                         </div>
                     </div>
-                    <input type="hidden" id="question_id">
-                    <textarea class="form-control comment" rows="6" id="comment_content"></textarea>
-                    <button type="button" class="btn btn-success btn-comment" onclick="post()">回复</button>
+                    <input type="hidden" id="question_id" th:value="${questionDto.id}">
+                    <textarea class="form-control comment" rows="6" id="comment_context"></textarea>
+                    <button type="button" class="btn btn-success btn-comment" onclick="postComment()">回复</button>
                 </div>
             </div>
 
@@ -92,8 +138,6 @@
                     </div>
                 </div>
             </div>
-            <!--            <div th:insert="~{notice :: notice}"></div>-->
-            <!--            <div th:insert="~{side :: side}"></div>-->
             <!--相关问题-->
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -107,7 +151,5 @@
         </div>
     </div>
 </div>
-
-
 </body>
 </html>

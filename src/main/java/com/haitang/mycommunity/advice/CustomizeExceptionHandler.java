@@ -22,13 +22,11 @@ public class CustomizeExceptionHandler {
 
         String contentType = request.getContentType();
         if ("application/json".equals(contentType)){
-
             ResultDto resultDto=null;
             if (ex instanceof CustomizeException){
                 resultDto = ResultDto.errorOf((CustomizeException) ex);
             }else {
                 resultDto = ResultDto.errorOf(CustomizeErrorCode.SYSTEM_ERROR);
-
             }
             try {
                 response.setCharacterEncoding("UTF-8");

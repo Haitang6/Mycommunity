@@ -5,6 +5,15 @@
     <title>index</title>
     <head th:replace="import::head"></head>
 </head>
+<script type="application/javascript">
+    window.onload = function () {
+        var closable = window.localStorage.getItem("closable");
+        if (closable == "true"){
+            window.close();
+            window.localStorage.removeItem("closable")
+        }
+    }
+</script>
 <body style="background-color: #f9f9f9">
 
 <div th:replace="import::nav"></div>

@@ -3,6 +3,7 @@ package com.haitang.mycommunity.dto;
 import lombok.Data;
 
 @Data
+/*页面传递过来的评论*/
 public class CommentDto {
     private Integer parentId;
     private String context;
