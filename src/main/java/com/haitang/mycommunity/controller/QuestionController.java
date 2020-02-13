@@ -2,6 +2,7 @@ package com.haitang.mycommunity.controller;
 
 import com.haitang.mycommunity.dto.CommentShowDto;
 import com.haitang.mycommunity.dto.QuestionDto;
+import com.haitang.mycommunity.enums.CommentTypeEnum;
 import com.haitang.mycommunity.service.CommentService;
 import com.haitang.mycommunity.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class QuestionController {
         QuestionDto questionDto=questionService.findById(id);
 //       累加阅读数
         questionService.incView(id);
-        List <CommentShowDto> commentShowDtos = commentService.findByQuestionId(id);
+        List <CommentShowDto> commentShowDtos = commentService.findByTargetId(id, CommentTypeEnum.QUESTION);
         model.addAttribute("questionDto",questionDto);
         model.addAttribute("commentShowDto",commentShowDtos);
         return "questiondetail";

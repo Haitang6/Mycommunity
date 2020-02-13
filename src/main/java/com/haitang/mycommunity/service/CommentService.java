@@ -1,6 +1,5 @@
 package com.haitang.mycommunity.service;
 
-import com.haitang.mycommunity.dto.CommentDto;
 import com.haitang.mycommunity.dto.CommentShowDto;
 import com.haitang.mycommunity.enums.CommentTypeEnum;
 import com.haitang.mycommunity.exception.CustomizeErrorCode;
@@ -63,11 +62,12 @@ public class CommentService {
         }
     }
 
-    public List<CommentShowDto> findByQuestionId(Integer id) {
+    public List<CommentShowDto> findByTargetId(Integer id, CommentTypeEnum type) {
         CommentExample commentExample = new CommentExample();
         commentExample.createCriteria()
                 .andParentIdEqualTo(id)
-        .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
+        .andTypeEqualTo(type.getType());
+        commentExample.setOrderByClause("gmt_Create desc");
         List<Comment> comments = commentMapper.selectByExample(commentExample);
         if (comments.size() == 0){
             return new ArrayList<>();

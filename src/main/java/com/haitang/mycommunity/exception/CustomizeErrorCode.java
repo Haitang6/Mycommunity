@@ -9,7 +9,8 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     COMMENT_OR_REPLAY_NOT_SELECT(2003,"未选中评论或者回复"),
     SYSTEM_ERROR(2004,"服务器不开心，稍后再来"),
     TYPE_OF_COMMENT_WRONG(2005,"评论类型错误"),
-    COMMENT_NOT_FOND(2006,"评论不存在");
+    COMMENT_NOT_FOND(2006,"评论不存在"),
+    CONTEXT_IS_NULL(2007,"评论内容为空");
     private Integer code;
     private String message;
 

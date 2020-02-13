@@ -3,9 +3,10 @@ package com.haitang.mycommunity.dto;
 import com.haitang.mycommunity.exception.CustomizeErrorCode;
 import com.haitang.mycommunity.exception.CustomizeException;
 
-public class ResultDto {
+public class ResultDto <T> {
     private Integer code;
     private String message;
+    private T data;
 
     public static ResultDto errorOf(Integer coed,String message){
         ResultDto resultDto=new ResultDto();
@@ -23,6 +24,15 @@ public class ResultDto {
         ResultDto resultDto=new ResultDto();
         resultDto.setCode(200);
         resultDto.setMessage("请求成功");
+        return resultDto;
+    }
+
+
+    public static <T> ResultDto successWithData(T t){
+        ResultDto resultDto=new ResultDto();
+        resultDto.setCode(200);
+        resultDto.setMessage("请求成功");
+        resultDto.setData(t);
         return resultDto;
     }
 
@@ -44,5 +54,13 @@ public class ResultDto {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
     }
 }
