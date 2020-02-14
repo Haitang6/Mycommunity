@@ -71,7 +71,7 @@
                                 <span class="glyphicon glyphicon-thumbs-up icon"></span>
                                 <span class="comment-icon"  th:data-id="${commentShowDto.id}" onclick="doubleComment(this)">
                                     <span class="glyphicon glyphicon-comment"></span>
-                                    <span ></span>
+                                    <span th:text="${commentShowDto.commentCount}"></span>
                                 </span>
                                 <span class="pull-right" th:text="${#dates.format(commentShowDto.gmtCreate,'yyyy-MM-dd HH:mm')}" ></span>
                             </div>

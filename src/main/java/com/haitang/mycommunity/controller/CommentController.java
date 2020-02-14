@@ -48,6 +48,7 @@ public class CommentController {
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setGmtModified(comment.getGmtCreate());
         comment.setLikeCount(0);
+        comment.setCommentCount(0);
         comment.setCommentator(user.getId());
         commentService.insert(comment);
         HashMap<Object, Object> objectObjectHashMap = new HashMap<>();

@@ -4,10 +4,7 @@ import com.haitang.mycommunity.dto.CommentShowDto;
 import com.haitang.mycommunity.enums.CommentTypeEnum;
 import com.haitang.mycommunity.exception.CustomizeErrorCode;
 import com.haitang.mycommunity.exception.CustomizeException;
-import com.haitang.mycommunity.mapper.CommentMapper;
-import com.haitang.mycommunity.mapper.QuestionExtMapper;
-import com.haitang.mycommunity.mapper.QuestionMapper;
-import com.haitang.mycommunity.mapper.UserMapper;
+import com.haitang.mycommunity.mapper.*;
 import com.haitang.mycommunity.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +21,8 @@ import java.util.stream.Collectors;
 public class CommentService {
     @Autowired
     CommentMapper commentMapper;
+    @Autowired
+    CommentExtMapper commentExtMapper;
     @Autowired
     QuestionMapper questionMapper;
     @Autowired
@@ -48,6 +47,12 @@ public class CommentService {
                 throw  new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOND);
             }
             commentMapper.insert(comment);
+
+//          添加评论的评论数
+            Comment parentComment = new Comment();
+            parentComment.setId(comment.getParentId());
+            parentComment.setCommentCount(1);
+            commentExtMapper.incComment(parentComment);
 
         }else {
 //            回复问题
