@@ -16,27 +16,40 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <!--正文-->
             <h3 style="color: #ffc624" th:text="${title}"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> </h3>
-
-
-            <div class="media" th:each="questionDto:${questionDtos}" >
-                <div class="media-left">
-                    <a href="#">
-                        <img th:src="${questionDto.user.avatarUrl}" style="width: 78px;height: 78px" class="media-object img-rounded">
-                    </a>
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">
-                        <a th:text="${questionDto.title}" th:href="@{'/questiondetail/'+${questionDto.id}}">aaa</a>
-                    </h4>
-                    <p th:text="${questionDto.description}"></p>
-                    <span class="text-desc">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${titleName == 'question'}">
+                <div class="media" th:each="questionDto:${questionDtos}" >
+                    <div class="media-left">
+                        <a href="#">
+                            <img th:src="${questionDto.user.avatarUrl}" style="width: 50px;height: 50px" class="media-object img-rounded">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <a th:text="${questionDto.title}" th:href="@{'/questiondetail/'+${questionDto.id}}">aaa</a>
+                        </h4>
+                        <span class="text-desc">
                         <span th:text="${questionDto.commentCount}"></span> 个回复 •
                         <span th:text="${questionDto.viewCount}"></span> 次浏览 •
                         <span th:text="${#dates.format(questionDto.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>
                     </span>
+                    </div>
                 </div>
             </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${titleName == 'replies'}">
 
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="media" th:each="notificationDto : ${notificationDtos}">
+                        <div class="media-body">
+                            <p class="media-heading">
+                                <span th:text="${notificationDto.notifierName +' ' + notificationDto.typeName + ' '}"></span>
+                                <a th:href="@{'/notification/'+${notificationDto.id}}" th:text="${notificationDto.outerTitle}">
+                                </a>
+                                <span class="label label-danger" th:if="${notificationDto.status == 0}">未读</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
 
@@ -49,7 +62,7 @@
                     <a href="/myself/replies"
                        th:class="${titleName == 'replies'}? 'active list-group-item' : 'list-group-item'">
                         最新回复
-                        <span class="badge" >14</span>
+                        <span class="badge" th:text="${totalCount}"></span>
                     </a>
 
                 </div>

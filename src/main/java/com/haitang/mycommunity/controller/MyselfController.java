@@ -1,8 +1,12 @@
 package com.haitang.mycommunity.controller;
+import com.haitang.mycommunity.dto.NotificationDto;
 import com.haitang.mycommunity.dto.QuestionDto;
+import com.haitang.mycommunity.mapper.NotificationMapper;
 import com.haitang.mycommunity.mapper.UserMapper;
+import com.haitang.mycommunity.model.Notification;
 import com.haitang.mycommunity.model.Question;
 import com.haitang.mycommunity.model.User;
+import com.haitang.mycommunity.service.NotificationService;
 import com.haitang.mycommunity.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +25,9 @@ public class MyselfController {
     @Autowired
     QuestionService questionService;
 
+    @Autowired
+    NotificationService notificationService;
+
     @GetMapping("/myself/{action}")
     public String myself(@PathVariable(name = "action") String action,
                          HttpServletRequest request,
@@ -38,8 +45,14 @@ public class MyselfController {
             model.addAttribute("titleName","question");
         }else if ("replies".equals(action)){
 
+            List<NotificationDto> notificationDtos = notificationService.list(user.getId());
+            Long totalCount=notificationService.unreadCount(user.getId());
             model.addAttribute("title","我的回复");
             model.addAttribute("titleName","replies");
+            model.addAttribute("notificationDtos",notificationDtos);
+            model.addAttribute("totalCount",totalCount);
+            return "myself";
+
         }
         return "myself";
     }
