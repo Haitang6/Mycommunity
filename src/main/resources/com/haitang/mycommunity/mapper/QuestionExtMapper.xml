@@ -24,11 +24,22 @@
     VIEW_COUNT = VIEW_COUNT + #{viewCount,jdbcType=INTEGER}
     where id = #{id}
     </update>
+
     <update id="incComment" parameterType="com.haitang.mycommunity.model.Question">
     update QUESTION
     set
     COMMENT_COUNT = COMMENT_COUNT + #{commentCount,jdbcType=INTEGER}
     where id = #{id}
     </update>
+
+    <select id="selectLikeTag" parameterType="com.haitang.mycommunity.model.Question" resultMap="BaseResultMap">
+        select * from QUESTION where  ID !=#{id} and TAG regexp #{tag}
+    </select>
+
+
+
+
+
+
 
 </mapper>

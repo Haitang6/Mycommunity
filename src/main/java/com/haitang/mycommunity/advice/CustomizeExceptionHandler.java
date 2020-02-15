@@ -40,7 +40,8 @@ public class CustomizeExceptionHandler {
 
             }
             return null;
-        }else {
+        }
+        else {
             if (ex instanceof CustomizeException){
                 model.addAttribute("message",ex.getMessage());
             }else {
@@ -50,6 +51,4 @@ public class CustomizeExceptionHandler {
         }
 
     }
-
-
 }

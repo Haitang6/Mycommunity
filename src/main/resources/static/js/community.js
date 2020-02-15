@@ -7,12 +7,15 @@ function postComment() {
     var context = $("#comment_context").val();
     comment(questionId,1,context);
 }
+/*
+* 二级回复
+* */
 
 function replay(e) {
     var commentId =e.getAttribute("data_id");
     var context = $("#input_" + commentId).val();
     comment(commentId,2,context);
-
+    doubleComment(e);
 }
 
 function comment(targetId,type,context) {
@@ -54,19 +57,15 @@ function comment(targetId,type,context) {
     });
 }
 
-/*
-* 二级评论,打开二级评论框框。
-* */
 
 function doubleComment(e) {
     /*
     * 获取二级评论数据
     * */
-    var id=e.getAttribute("data-id")
+    var id=e.getAttribute("data_id")
     // var subCommentContainer = $("#comment-" + id);
 
     $.getJSON("/comment/"+id,function (data) {
-       console.log(data);
        var subCommentContainer = $("#comment-"+id);
         $.each(data.data.reverse(), function (index, comment) {
             var mediaLeftElement = $("<div/>", {
@@ -100,12 +99,6 @@ function doubleComment(e) {
 
             subCommentContainer.prepend(commentElement);
         });
-
         subCommentContainer.toggle();
-
-
     });
-
-
-
 }

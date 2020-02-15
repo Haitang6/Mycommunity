@@ -8,11 +8,16 @@ import com.haitang.mycommunity.mapper.UserMapper;
 import com.haitang.mycommunity.model.Question;
 import com.haitang.mycommunity.model.QuestionExample;
 import com.haitang.mycommunity.model.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -51,8 +56,10 @@ public class QuestionService {
 
     public List<QuestionDto> findAll(){
         List<QuestionDto> questionDtos=new ArrayList<QuestionDto>();
-        List<Question> questions = questionMapper.selectByExample(new QuestionExample());
 
+        QuestionExample questionExample= new QuestionExample();
+        questionExample.setOrderByClause("gmt_Create desc");
+        List<Question> questions = questionMapper.selectByExample(questionExample);
         for (Question question:questions){
             Integer creator = question.getCreator();
             User user = userMapper.selectByPrimaryKey(creator);
@@ -102,5 +109,23 @@ public class QuestionService {
         question.setId(id);
         question.setViewCount(1);
         questionExtMapper.incView(question);
+    }
+
+    public List<QuestionDto> selectLikeTag(QuestionDto questionDto) {
+        if (StringUtils.isBlank(questionDto.getTag())){
+            return new ArrayList<>();
+        }
+        String[] tags = StringUtils.split(questionDto.getTag(), ',');
+        String regextTag = Arrays.stream(tags).collect(Collectors.joining("|"));
+        Question question=new Question();
+        question.setId(questionDto.getId());
+        question.setTag(regextTag);
+        List<Question> questions = questionExtMapper.selectLikeTag(question);
+        List<QuestionDto> questionDtos = questions.stream().map(q -> {
+            QuestionDto questionDto1=new QuestionDto();
+            BeanUtils.copyProperties(q,questionDto1);
+            return questionDto1;
+        }).collect(Collectors.toList());
+        return questionDtos;
     }
 }
