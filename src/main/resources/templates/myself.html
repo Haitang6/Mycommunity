@@ -41,7 +41,10 @@
                     <div class="media" th:each="notificationDto : ${notificationDtos}">
                         <div class="media-body">
                             <p class="media-heading">
-                                <span th:text="${notificationDto.notifierName +' ' + notificationDto.typeName + ' '}"></span>
+                                <a href="#">
+                                    <span th:text="${notificationDto.notifierName}"></span>
+                                </a>
+                                <span th:text="${notificationDto.typeName}"></span>
                                 <a th:href="@{'/notification/'+${notificationDto.id}}" th:text="${notificationDto.outerTitle}">
                                 </a>
                                 <span class="label label-danger" th:if="${notificationDto.status == 0}">未读</span>
@@ -62,7 +65,7 @@
                     <a href="/myself/replies"
                        th:class="${titleName == 'replies'}? 'active list-group-item' : 'list-group-item'">
                         最新回复
-                        <span class="badge" th:text="${totalCount}"></span>
+                        <span class="badge" th:text="${session.unreadCount}"></span>
                     </a>
 
                 </div>

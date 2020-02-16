@@ -35,7 +35,7 @@
                 <li th:if="${session.user == null}">
                     <a href="https://github.com/login/oauth/authorize?client_id=7f42e4939e2024478664&rediect_url=http://localhost:9999/callback&scope=user&state=1">登录</a>
                 </li>
-                    <li><a th:if="${session.user != null}" href="/myself/replies" style="color: red">通知 <span class="badge"  >32</span></a>
+                    <li><a th:if="${session.user != null}" href="/myself/replies" style="color: red">通知 <span class="badge" th:text="${session.unreadCount}"  ></span></a>
 
                     <li class="dropdown" th:if="${session.user != null}">
                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: white">

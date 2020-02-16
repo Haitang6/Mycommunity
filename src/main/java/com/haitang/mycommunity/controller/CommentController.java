@@ -24,9 +24,7 @@ public class CommentController {
     @Autowired
     private CommentMapper commentMapper;
     @Autowired
-    private
-    CommentService commentService;
-
+    private CommentService commentService;
     /*
     * 对问题进行评论
     * */
@@ -54,24 +52,15 @@ public class CommentController {
         HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
         return ResultDto.success();
     }
-
     /*
     * 对评论进行回复展示
     *
     * */
-
     @ResponseBody
     @GetMapping("/comment/{id}")
     public ResultDto<List<CommentShowDto>> showDoubleComment(@PathVariable(name = "id") Integer id ){
 
         List <CommentShowDto> commentShowDtos = commentService.findByTargetId(id, CommentTypeEnum.COMMENT);
-
-
         return ResultDto.successWithData(commentShowDtos);
     }
-
-
-
-
-
 }

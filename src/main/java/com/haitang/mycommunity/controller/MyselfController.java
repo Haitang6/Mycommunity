@@ -24,7 +24,6 @@ public class MyselfController {
 
     @Autowired
     QuestionService questionService;
-
     @Autowired
     NotificationService notificationService;
 
@@ -36,23 +35,17 @@ public class MyselfController {
         if(user == null){
             return "redirect:/";
         }
-
         if ("question".equals(action)){
-
             List<QuestionDto> questionDtos = questionService.findAllByUserid(user.getId());
             model.addAttribute("questionDtos",questionDtos);
             model.addAttribute("title","我的问题");
             model.addAttribute("titleName","question");
         }else if ("replies".equals(action)){
-
             List<NotificationDto> notificationDtos = notificationService.list(user.getId());
-            Long totalCount=notificationService.unreadCount(user.getId());
             model.addAttribute("title","我的回复");
             model.addAttribute("titleName","replies");
             model.addAttribute("notificationDtos",notificationDtos);
-            model.addAttribute("totalCount",totalCount);
             return "myself";
-
         }
         return "myself";
     }

@@ -28,15 +28,12 @@ public class NotificationService {
 
     public List<NotificationDto> list(Integer userId) {
 
-        NotificationExample notificationExample = new NotificationExample();
-
 //       通知列表
-        NotificationExample notificationExample1 = new NotificationExample();
-        notificationExample1.createCriteria()
+        NotificationExample notificationExample = new NotificationExample();
+        notificationExample.createCriteria()
                 .andReceiverEqualTo(userId);
-        List<Notification> notifications = notificationMapper.selectByExample(notificationExample1);
-
-
+        notificationExample.setOrderByClause("status");
+        List<Notification> notifications = notificationMapper.selectByExample(notificationExample);
         List<NotificationDto>notificationDtos=new ArrayList<>();
 
         for (Notification notification : notifications) {
@@ -48,15 +45,13 @@ public class NotificationService {
         return notificationDtos;
     }
 
+    //      未读通知数
     public Long unreadCount(Integer userId) {
-
-
-//      总通知数
         NotificationExample notificationExample = new NotificationExample();
         notificationExample.createCriteria()
-                .andReceiverEqualTo(userId);
+                .andReceiverEqualTo(userId)
+                .andStatusEqualTo(NotificationStatusEnum.UNREAD.getStatus());
         Long totalCount = notificationMapper.countByExample(notificationExample);
-
         return totalCount;
     }
 
@@ -71,14 +66,10 @@ public class NotificationService {
         }
 
         notification.setStatus(NotificationStatusEnum.READ.getStatus());
-
         notificationMapper.updateByPrimaryKey(notification);
-
         NotificationDto notificationDto = new NotificationDto();
         BeanUtils.copyProperties(notification,notificationDto);
         notificationDto.setTypeName(NotificationTypeEnum.nameOfType(notification.getType()));
-
         return notificationDto;
-
     }
 }

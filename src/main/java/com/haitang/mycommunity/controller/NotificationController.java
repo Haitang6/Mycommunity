@@ -22,21 +22,16 @@ public class NotificationController {
     public String notified(@PathVariable(name = "id") Integer id ,
                            HttpServletRequest request,
                            Model model){
-
         User user =(User) request.getSession().getAttribute("user");
-
         if (user == null) {
             return "redirect:/";
         }
         NotificationDto notificationDto=notificationService.read(id,user);
-
         if (NotificationTypeEnum.REPLY_COMMENT.getType() == notificationDto.getType() ||
         NotificationTypeEnum.REPLY_QUESTION.getType()== notificationDto.getType()){
             return "redirect:/questiondetail/"+notificationDto.getOuterid();
         }else {
             return "redirect:/";
         }
-
-//        return null;
     }
 }
