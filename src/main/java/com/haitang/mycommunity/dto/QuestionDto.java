@@ -1,9 +1,7 @@
 package com.haitang.mycommunity.dto;
 
 import com.haitang.mycommunity.model.User;
-import lombok.Data;
 
-@Data
 public class QuestionDto {
     private Integer id;
     private String title;

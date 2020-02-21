@@ -1,7 +1,5 @@
 package com.haitang.mycommunity.dto;
-import lombok.Data;
 
-@Data
 public class GithubUser {
 
     private String name;
