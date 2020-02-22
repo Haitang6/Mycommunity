@@ -13,7 +13,7 @@ public class FileController {
     public FileDto uploadImg(){
         FileDto fileDto = new FileDto();
         fileDto.setSuccess(1);
-        fileDto.setUrl("/images/official.jpg");
+        fileDto.setUrl("/images/geektime.jpeg");
         return fileDto;
     }
 }
