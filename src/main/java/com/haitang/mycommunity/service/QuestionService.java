@@ -54,17 +54,23 @@ public class QuestionService {
         }
     }
 
-    public List<QuestionDto> findAll(String search){
+    public List<QuestionDto> findAll(String search,String tag){
 
         List<Question>questions=new ArrayList<>();
         if (StringUtils.isNoneBlank(search)){
             String[] split = StringUtils.split(search, " ");
             search=Arrays.stream(split).collect(Collectors.joining("|"));
             questions = questionExtMapper.selectLikeSearch(search);
+        }else if (StringUtils.isNoneBlank(tag)){
+            String[] split = StringUtils.split(tag, " ");
+            tag=Arrays.stream(split).collect(Collectors.joining("|"));
+            questions=questionExtMapper.selectLikeHotTag(tag);
+
         }else {
             QuestionExample questionExample= new QuestionExample();
             questionExample.setOrderByClause("gmt_Create desc");
             questions = questionMapper.selectByExample(questionExample);
+
         }
         List<QuestionDto> questionDtos=new ArrayList<QuestionDto>();
         for (Question question:questions){

@@ -23,13 +23,13 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(HttpServletRequest request, Model model,
-                        @RequestParam(name = "search",required = false)String search) {
+                        @RequestParam(name = "search",required = false)String search,
+                        @RequestParam(name = "tag",required = false)String tag) {
 
-        List<QuestionDto> questionDtos =questionService.findAll(search);
+        List<QuestionDto> questionDtos =questionService.findAll(search,tag);
         model.addAttribute("questionDtos",questionDtos);
         List<String> tags = hotTagCache.getHots();
         model.addAttribute("tags",tags);
-
         return "index";
     }
 

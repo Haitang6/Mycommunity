@@ -1,7 +1,6 @@
 package com.haitang.mycommunity.dto;
 
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
 public class HotTagDto implements Comparable {

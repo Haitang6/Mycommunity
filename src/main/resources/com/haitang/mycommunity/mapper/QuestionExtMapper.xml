@@ -40,10 +40,8 @@
         select * from QUESTION where  TITLE regexp #{search}
     </select>
 
-
-
-
-
-
+    <select id="selectLikeHotTag" parameterType="String" resultMap="BaseResultMap">
+        select * from QUESTION where  TAG regexp #{tag}
+    </select>
 
 </mapper>

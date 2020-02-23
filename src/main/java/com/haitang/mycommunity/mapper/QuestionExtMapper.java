@@ -11,4 +11,6 @@ public interface QuestionExtMapper {
     List<Question> selectLikeTag (Question question);
 
     List<Question> selectLikeSearch(String search);
+
+    List<Question> selectLikeHotTag(String tag);
 }
