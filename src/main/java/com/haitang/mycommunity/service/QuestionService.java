@@ -54,12 +54,19 @@ public class QuestionService {
         }
     }
 
-    public List<QuestionDto> findAll(){
-        List<QuestionDto> questionDtos=new ArrayList<QuestionDto>();
+    public List<QuestionDto> findAll(String search){
 
-        QuestionExample questionExample= new QuestionExample();
-        questionExample.setOrderByClause("gmt_Create desc");
-        List<Question> questions = questionMapper.selectByExample(questionExample);
+        List<Question>questions=new ArrayList<>();
+        if (StringUtils.isNoneBlank(search)){
+            String[] split = StringUtils.split(search, " ");
+            search=Arrays.stream(split).collect(Collectors.joining("|"));
+            questions = questionExtMapper.selectLikeSearch(search);
+        }else {
+            QuestionExample questionExample= new QuestionExample();
+            questionExample.setOrderByClause("gmt_Create desc");
+            questions = questionMapper.selectByExample(questionExample);
+        }
+        List<QuestionDto> questionDtos=new ArrayList<QuestionDto>();
         for (Question question:questions){
             Integer creator = question.getCreator();
             User user = userMapper.selectByPrimaryKey(creator);
@@ -69,7 +76,6 @@ public class QuestionService {
             questionDtos.add(questionDto);
         }
         return questionDtos;
-
     }
 
     public List<QuestionDto> findAllByUserid(Integer userid){

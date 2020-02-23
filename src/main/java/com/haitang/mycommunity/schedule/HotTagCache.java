@@ -16,10 +16,8 @@ public class HotTagCache {
 
     public void updateTags(Map<String,Integer> tags){
 
-//        List<String> hots=new ArrayList<>();
         int max=5;
         PriorityQueue<HotTagDto> priorityQueue = new PriorityQueue<>(max);
-
         tags.forEach((name,priority)->{
             HotTagDto hotTagDto = new HotTagDto();
             hotTagDto.setName(name);
@@ -44,13 +42,11 @@ public class HotTagCache {
         }
         hots=newHots;
         System.out.println(hots);
-
     }
 
     public List<String> getHots() {
         return hots;
     }
-
     public void setHots(List<String> hots) {
         this.hots = hots;
     }

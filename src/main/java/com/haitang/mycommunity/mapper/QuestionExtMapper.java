@@ -9,4 +9,6 @@ public interface QuestionExtMapper {
     int incView(Question question);
     int incComment(Question question);
     List<Question> selectLikeTag (Question question);
+
+    List<Question> selectLikeSearch(String search);
 }

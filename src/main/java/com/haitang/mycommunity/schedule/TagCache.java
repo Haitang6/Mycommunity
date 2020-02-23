@@ -23,7 +23,7 @@ public class TagCache {
     HotTagCache hotTagCache;
 
 
-    @Scheduled(fixedRate = 50000)
+//    @Scheduled(fixedRate = 50000)
 //    @Scheduled(cron = "0 0 1 * * *")
     public void reportCurrentTime(){
         Map<String, Integer> tagMap = new HashMap<>();

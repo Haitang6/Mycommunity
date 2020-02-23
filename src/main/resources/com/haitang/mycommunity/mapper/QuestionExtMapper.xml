@@ -36,6 +36,10 @@
         select * from QUESTION where  ID !=#{id} and TAG regexp #{tag}
     </select>
 
+    <select id="selectLikeSearch" parameterType="String" resultMap="BaseResultMap">
+        select * from QUESTION where  TITLE regexp #{search}
+    </select>
+
 
 
 
